@@ -1,5 +1,5 @@
 // Package wire provides an easy and flexible way to serialize and deserialize
-// Go structures.
+// Go structures to binary.
 // It has support for arrays, variable length slices and strings, embedded
 // structures, and even slices and arrays of embedded structures.
 //
@@ -22,6 +22,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
+	"math"
 	"reflect"
 )
 
@@ -158,6 +159,13 @@ func (v *encodeVisitor) visit(n *node) error {
 		v.writer.Write(dq[:])
 	case reflect.Uint64:
 		order.PutUint64(dq[:], uint64(n.val.Uint()))
+		v.writer.Write(dq[:])
+
+	case reflect.Float32:
+		order.PutUint32(dd[:], math.Float32bits(float32(n.val.Float())))
+		v.writer.Write(dd[:])
+	case reflect.Float64:
+		order.PutUint64(dq[:], math.Float64bits(n.val.Float()))
 		v.writer.Write(dq[:])
 
 	case reflect.Array, reflect.Slice:

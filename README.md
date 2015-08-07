@@ -2,7 +2,7 @@ wire
 ----
 
 Wire provides an easy and flexible way to serialize and deserialize
-Go structures.
+Go structures to binary.
 It has support for arrays, variable length slices and strings, embedded
 structures, and even slices and arrays of embedded structures.
 
