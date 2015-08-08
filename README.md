@@ -1,7 +1,5 @@
-wire
+wire [![GoDoc](https://godoc.org/github.com/dajoh/wire?status.png)](https://godoc.org/github.com/dajoh/wire) [![Build Status](https://travis-ci.org/dajoh/wire.svg?branch=master)](https://travis-ci.org/dajoh/wire) [![Coverage Status](https://coveralls.io/repos/dajoh/wire/badge.svg?branch=master&service=github)](https://coveralls.io/github/dajoh/wire?branch=master)
 ----
-
-[![Build Status](https://travis-ci.org/dajoh/wire.svg?branch=master)](https://travis-ci.org/dajoh/wire)
 
 Wire provides an easy and flexible way to serialize and deserialize
 Go structures to binary.
@@ -12,10 +10,10 @@ Wire serializes in little endian by default, but this can be overridden with
 the use of struct field tags or by using the WithOrder functions.
 
 The following tags are supported:
-* big (tells wire to (de)serialize the value in big endian)
-* little (tells wire to (de)serialize the value in little endian)
-* nullterm (tells wire to (de)serialize the string with a null terminator)
-* sizeof=$ (tells wire that this field contains the length of another field)
+* `big` tells wire to (de)serialize the value in big endian
+* `little` tells wire to (de)serialize the value in little endian
+* `nullterm` tells wire to (de)serialize the string with a null terminator
+* `sizeof=$` tells wire that this field contains the length of another field
 
 ```go
 type Example struct {
