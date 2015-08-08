@@ -35,6 +35,11 @@ type testStruct struct {
 	SZ string `wire:"nullterm"`
 	SS uint32 `wire:"sizeof=SQ"`
 	SQ string
+
+	MDA [4][4]byte
+
+	F32 float32
+	F64 float64
 }
 
 var refStruct = testStruct{
@@ -60,6 +65,11 @@ var refStruct = testStruct{
 	SZ: "hello",
 	SS: 0,
 	SQ: "banan", // 101
+
+	MDA: [4][4]byte{}, // 117
+
+	F32: 1.0,
+	F64: 2.0, // 129
 }
 
 var refBytes = []byte{
@@ -94,14 +104,22 @@ var refBytes = []byte{
 	0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x00,
 	0x00, 0x00, 0x00, 0x05,
 	0x62, 0x61, 0x6e, 0x61, 0x6e,
+
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00, 0x00,
+
+	0x3f, 0x80, 0x00, 0x00,
+	0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 }
 
 func TestSizeof(t *testing.T) {
 	size, err := Sizeof(&refStruct)
 	if err != nil {
 		t.Error(err)
-	} else if size != 101 {
-		t.Error("Bad sizeof result", size, "expected", 101)
+	} else if size != 129 {
+		t.Error("Bad sizeof result", size, "expected", 129)
 	}
 }
 
@@ -112,8 +130,8 @@ func TestEncode(t *testing.T) {
 		t.Error(err)
 	} else if !bytes.Equal(buf.Bytes(), refBytes) {
 		t.Error("Bad encode result")
-		t.Error("expected:", hex.EncodeToString(buf.Bytes()))
-		t.Error("received:", hex.EncodeToString(refBytes))
+		t.Error("expected:", hex.EncodeToString(refBytes))
+		t.Error("received:", hex.EncodeToString(buf.Bytes()))
 	}
 }
 

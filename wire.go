@@ -63,10 +63,8 @@ func (v *sizeofVisitor) visit(n *node) error {
 		v.size += 2
 	case reflect.Int32, reflect.Uint32, reflect.Float32:
 		v.size += 4
-	case reflect.Int64, reflect.Uint64, reflect.Float64, reflect.Complex64:
+	case reflect.Int64, reflect.Uint64, reflect.Float64:
 		v.size += 8
-	case reflect.Complex128:
-		v.size += 16
 	case reflect.Array, reflect.Slice:
 		if n.val.Len() > 0 {
 			// TODO: this is wrong, should trigger slow path on other variable sized stuff (slice, string, etc)
@@ -246,6 +244,13 @@ func (v *decodeVisitor) visit(n *node) error {
 	case reflect.Uint64:
 		_, err = v.reader.Read(dq[:])
 		n.val.SetUint(uint64(order.Uint64(dq[:])))
+
+	case reflect.Float32:
+		_, err = v.reader.Read(dd[:])
+		n.val.SetFloat(float64(math.Float32frombits(order.Uint32(dd[:]))))
+	case reflect.Float64:
+		_, err = v.reader.Read(dq[:])
+		n.val.SetFloat(math.Float64frombits(order.Uint64(dq[:])))
 
 	case reflect.Array:
 		// TODO: fast path for []byte, []int8, []uint8, etc
