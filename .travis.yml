@@ -1,1 +1,6 @@
 language: go
+before_install:
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/mattn/goveralls
+script:
+  - $HOME/gopath/bin/goveralls -repotoken $COVERALLS_TOKEN

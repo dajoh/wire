@@ -1,6 +1,8 @@
 wire
 ----
 
+[![Build Status](https://travis-ci.org/dajoh/wire.svg?branch=master)](https://travis-ci.org/dajoh/wire)
+
 Wire provides an easy and flexible way to serialize and deserialize
 Go structures to binary.
 It has support for arrays, variable length slices and strings, embedded
